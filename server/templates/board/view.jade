@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1 #{board.name}
+  .new-thread
+    h3 Create New Thread
+    form.form(role='form', method='post', action='/board/#{board.name}/newThread', enctype='multipart/form-data')
+      include includes/formPostContent
+      button.btn.btn-success(type='submit') Create Thread
+  each thread in board.threads
+    post = thread.posts[0]
+    .thread
+      include includes/post
+      - for(var i = 1; i < 3; i++) {
+          post = thread.posts[i]
+          include includes/post
+          br
+      - }

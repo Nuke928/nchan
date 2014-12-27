@@ -1,0 +1,86 @@
+@import "vendor/bootstrap.scss";
+@import "gatekeeper.scss";
+
+html, body {
+  height: 100%;
+  background: #EEF2FF;
+}
+
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -45px;
+  padding: 20px;
+}
+
+#footer {
+  height: 45px;
+}
+
+.create-new-board-form {
+  width: 500px;
+}
+
+.post-base {
+  p.intro {
+    clear: none;
+    padding: 0px;
+    padding-bottom: 0.2em;
+  }
+  
+  span.name {
+    color: #117743;
+    font-weight: bold;
+  }
+  
+  span.date {
+    padding-left: 5px;
+  }
+  
+  a.id {
+    cursor: pointer;
+    &:before {
+      content: " No. ";
+    }
+  }
+}
+
+.post {
+  @extend .post-base;
+  background-color: #D6DAF0;
+  margin: 0.2em 4px;
+  padding: 0.2em 0.3em 0.5em 0.6em;
+  border-width: 1px;
+  border-style: none solid solid none;
+  border-color: #B7C5D9;
+  display: inline-block;
+  max-width: 94% !important;
+}
+
+.op-post {
+  @extend .post-base;
+  margin-right: 20px;
+  margin-bottom: 5px;
+}
+
+.new-thread {
+  max-width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.post-in-thread {
+  @extend .new-thread;
+}
+
+.flash {
+  text-align: center;
+  p {
+    font-weight: bold;
+  }
+}
+
+.thread {
+  padding-top: 20px;
+}

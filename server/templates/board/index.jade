@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1 Boards
+  h3 Create New Board
+  form.form.create-new-board-form(role='form', method='post', action='/board/new')
+    .form-group
+      label(for='boardName') Name
+      input.form-control(name='boardName', type='text')
+    button.btn.btn-success(type='submit') Create
+  if boards
+    each board in boards
+      a(href="/board/#{board.name}")
+        h2 #{board.name}
+      p Posts: #{board.postCount}
