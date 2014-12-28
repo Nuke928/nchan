@@ -1,11 +1,13 @@
 extends layout
 
 block content
-  .post-in-thread
-    h3 Post in this thread
-    form.form(role='form', method='post', action='/board/#{board.name}/thread/#{thread.id}/post', enctype='multipart/form-data')
-      include includes/formPostContent
-      button.btn.btn-success(type='submit') Post
+  .board-header
+    h1 /#{board.name}/
+    .post-in-thread
+      h3 Post in this thread
+      form.form(role='form', method='post', action='/board/#{board.name}/thread/#{thread.id}/post', enctype='multipart/form-data')
+        include includes/formPostContent
+        button.btn.btn-success(type='submit') Post
   .thread
     each post in thread.posts
         include includes/post
