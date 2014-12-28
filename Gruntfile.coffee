@@ -57,6 +57,10 @@ module.exports = (grunt) ->
         options:
           reporter: 'spec'
         src: ['test/controllers/*']
+      lib:
+        options:
+          reporter: 'spec'
+        src: ['test/lib/*']
         
     # express server
     express:
@@ -106,6 +110,7 @@ module.exports = (grunt) ->
   grunt.registerTask 'test', [
     'development'
     'express:test'
+    'mochaTest:lib'
     'mochaTest:controllers'
   ]
     

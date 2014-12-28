@@ -16,7 +16,8 @@
     "async": "^0.9.0",
     "express-flash": "0.0.2",
     "express-session": "^1.9.3",
-    "grunt": "^0.4.5"
+    "grunt": "^0.4.5",
+    "escape-html": "^1.0.1"
   },
   "devDependencies": {
     "grunt-contrib-clean": "~0.4.1",

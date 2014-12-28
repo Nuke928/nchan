@@ -82,3 +82,23 @@ describe 'the board controller', ->
         browser.success.should.be.ok
         _s.include(browser.html(), 'Posting!').should.be.true
         done()
+        
+  it 'should be able to cite', (done) ->
+    browser = Browser.create()
+    browser.visit '/board/MySpecialBoard/thread/1', (error) ->
+      should.not.exist(error)
+      browser.fill 'textarea[name="comment"]', '>>2 You are damn right dude'
+      browser.pressButton 'Post', () ->
+        browser.success.should.be.ok
+        # TODO: how to test if the <a> tag is actually included?
+        done()
+        
+  it 'should escape HTML tags', (done) ->
+    browser = Browser.create()
+    browser.visit '/board/MySpecialBoard/thread/1', (error) ->
+      should.not.exist(error)
+      browser.fill 'textarea[name="comment"]', '<script>alert("haxed :)");</script>'
+      browser.pressButton 'Post', () ->
+        browser.success.should.be.ok
+        # TODO: test if the <script> is not included
+        done()    

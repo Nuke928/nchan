@@ -1,6 +1,8 @@
 Board = require '../models/board'
 Post = require '../models/post'
 Thread = require '../models/thread'
+escape = require 'escape-html'
+markup = require '../lib/markup'
 
 boardController = {}
 
@@ -87,12 +89,19 @@ boardController.viewThread = (req, res, next) ->
         id: req.params.id
   , (err, result) ->
     return if not result? or not result.threads[0]?
+    
+    # Add markup
+    for post, index in result.threads[0].posts
+      console.log "Post text before: #{post.text}"
+      post.text = markup.parseMarkup req.params.boardName, req.params.id, post.text
+      console.log "Post text after: #{post.text}"
+      
     res.render 'board/viewThread',
       board: result,
       thread: result.threads[0]
       
 boardController.postInThread = (req, res, next) ->
-  return next() if not req.params.boardName? or not req.params.id?
+  return next() if not req.params.boardName? or not req.params.id? or not req.body.comment?
   Board.findOne
     name: req.params.boardName
   , (err, result) ->
@@ -105,10 +114,11 @@ boardController.postInThread = (req, res, next) ->
       console.log req.body.name
       name = if req.body.name? and String(req.body.name.length).length isnt 0 then req.body.name else 'Anonymous'
       currentPostCount = result.postCount
+      escapedText = escape(req.body.comment)
       post = new Post(
         id: currentPostCount
         name: name
-        text: req.body.comment
+        text: escapedText
       )
       Board.update
         name: req.params.boardName
