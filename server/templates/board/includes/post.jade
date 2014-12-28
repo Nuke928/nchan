@@ -7,7 +7,7 @@ if post
         span.date #{post.date}
         a.id(href='/board/#{board.name}/thread/#{thread.id}/#p#{post.id}') #{post.id}
       .body
-        include postBody
+        p !{post.text}
   else
     .post(id='p#{post.id}')
       p.intro
