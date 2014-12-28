@@ -18,7 +18,7 @@ boardController.new = (req, res) ->
     name: req.body.boardName
   )
   board.save (err, result) ->
-    if err
+    if err?
       console.log err
       req.flash 'info', 'There was an error adding your board!'
       res.redirect "/board"
@@ -52,7 +52,6 @@ boardController.newThread = (req, res, next) ->
         console.log err
         res.end 'There was an error!'
       name = if req.body.name? and String(req.body).length isnt 0 then req.body.name else 'Anonymous'
-      console.log name
       thread = new Thread(
         id: result.postCount
         posts:
@@ -92,9 +91,7 @@ boardController.viewThread = (req, res, next) ->
     
     # Add markup
     for post, index in result.threads[0].posts
-      console.log "Post text before: #{post.text}"
       post.text = markup.parseMarkup req.params.boardName, req.params.id, post.text
-      console.log "Post text after: #{post.text}"
       
     res.render 'board/viewThread',
       board: result,
@@ -111,7 +108,6 @@ boardController.postInThread = (req, res, next) ->
       if err? or not result?
         console.log err
         res.end 'There was an error!'
-      console.log req.body.name
       name = if req.body.name? and String(req.body.name.length).length isnt 0 then req.body.name else 'Anonymous'
       currentPostCount = result.postCount
       escapedText = escape(req.body.comment)
