@@ -46,6 +46,10 @@ html, body {
   }
 }
 
+.greentext {
+  color: green;
+}
+
 .post {
   @extend .post-base;
   background-color: #D6DAF0;

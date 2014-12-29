@@ -18,3 +18,25 @@ describe 'the markup lib', ->
     text = "Rate my gf /b/"
     body = markup.parseMarkup boardName, threadID, text
     (body == text).should.be.true
+    
+  it 'should convert newlines to <br> tags', ->
+    boardName = "b"
+    threadID = "666"
+    text = "Yo\nCHECK EM"
+    body = markup.parseMarkup boardName, threadID, text
+    (body == 'Yo<br>CHECK EM').should.be.true
+  
+  it 'should parse greentext', ->
+    boardName = "b"
+    threadID = "777"
+    text = "&gt;Not wanting putin to invade you"
+    body = markup.parseMarkup boardName, threadID, text
+    console.log body
+    (body == "<p class='greentext'>&gt;Not wanting putin to invade you</p>").should.be.true
+    
+  it 'should remove unneeded newlines', ->
+    boardName = "b"
+    threadID = "777"
+    text= 'lol\n\n\n\n\n\n\n\n\n\n\n\n\n'
+    body = markup.parseMarkup boardName, threadID, text
+    body.should.equal 'lol'
