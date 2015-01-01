@@ -9,10 +9,11 @@ module.exports.parseCites = (boardName, threadID, text) ->
   for word, index in words
     if _s.startsWith word, '&gt;&gt;'
       id = _s.ltrim word, '&gt;&gt;'
-      words[index] = "<a href=\"/board/#{boardName}/thread/#{threadID}/#p#{id}\">"
-      words[index] += "&gt;&gt;"
-      words[index] += id
-      words[index] += "</a>"
+      if not isNaN id
+        words[index] = "<a href=\"/board/#{boardName}/thread/#{threadID}/#p#{id}\">"
+        words[index] += "&gt;&gt;"
+        words[index] += id
+        words[index] += "</a>"
   return words.join ' '
 
 module.exports.parseGreentext = (text) ->

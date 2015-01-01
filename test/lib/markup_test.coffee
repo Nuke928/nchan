@@ -8,9 +8,15 @@ describe 'the markup lib', ->
     threadID = "3023"
     text = '&gt;&gt;3049 I hope you are not serious with that'
     body = markup.parseMarkup boardName, threadID, text
-    console.log body
     _s.include(body, 'I hope you are not serious with that').should.be.true
     _s.include(body, '<a href="/board/b/thread/3023/#p3049">&gt;&gt;3049</a>').should.be.true
+    
+  it 'should only parse cites with a number in it', ->
+    boardName = "b"
+    threadID = "3023"
+    text = '&gt;&gt;yo yo'
+    body = markup.parseMarkup boardName, threadID, text
+    body.should.equal '&gt;&gt;yo yo'
     
   it 'leave a text alone if does not have any markup', ->
     boardName = "b"
