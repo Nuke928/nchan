@@ -23,6 +23,9 @@ html, body {
 }
 
 .post-base {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+
   p.intro {
     clear: none;
     padding: 0px;
@@ -44,6 +47,9 @@ html, body {
       content: " No. ";
     }
   }
+  .body {
+    clear: none;
+  }
 }
 
 .greentext {
@@ -60,6 +66,12 @@ html, body {
   border-color: #B7C5D9;
   display: inline-block;
   max-width: 94% !important;
+  .body {
+    margin-left: 1.8em;
+    margin-top: 0.8em;
+    padding-right: 3em;
+    padding-bottom: 0.3em;
+  }
 }
 
 .op-post {
@@ -82,6 +94,10 @@ html, body {
 
 .post-in-thread {
   @extend .new-thread;
+}
+
+.post-image {
+  width: 255px;
 }
 
 .flash {

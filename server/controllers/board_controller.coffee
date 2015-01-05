@@ -3,6 +3,7 @@ Post = require '../models/post'
 Thread = require '../models/thread'
 escape = require 'escape-html'
 markup = require '../lib/markup'
+async = require 'async'
 
 boardController = {}
 
@@ -63,18 +64,32 @@ boardController.newThread = (req, res, next) ->
           ]
       )
 
-      # Update the board
-      Board.update
-        _id: result._id
-      ,
-        $push:
-          threads: thread
+      async.series([
+        ((next) ->
+          console.log req.files
+          if req.files? and req.files.file?
+            file = req.files.file
+            thread.posts[0].file = file.path
+            console.log thread.posts[0]
+          next()
+        ),
+        ((next) ->
+          # Update the board
+          Board.update
+            _id: result._id
+          ,
+            $push:
+              threads: thread
+          , (err, result) ->
+            if err? or not result?
+              req.flash 'info', 'There was a error creating your thread'
+              console.log err
+            next()
+        )
+      ]
       , (err, result) ->
-        if err? or not result?
-          req.flash 'info', 'There was a error creating your thread'
-          console.log err
-          
         res.redirect "/board/#{req.params.boardName}"
+      )
       
 boardController.viewThread = (req, res, next) ->
   return next() if not req.params.boardName? or not req.params.id?
@@ -87,7 +102,7 @@ boardController.viewThread = (req, res, next) ->
       $elemMatch:
         id: req.params.id
   , (err, result) ->
-    return if not result? or not result.threads[0]?
+    return next() if not result? or not result.threads[0]?
     
     # Add markup
     for post, index in result.threads[0].posts
@@ -116,15 +131,31 @@ boardController.postInThread = (req, res, next) ->
         name: name
         text: escapedText
       )
-      Board.update
-        name: req.params.boardName
-        "threads.id": req.params.id
-      ,
-        $push:
-          "threads.$.posts":
-            post
-      , (err, result) ->
-        return next() if not result?
-        res.redirect "/board/#{req.params.boardName}/thread/#{req.params.id}#p#{currentPostCount}"              
+
+      async.series([
+        ((_next) ->
+          console.log req.files
+          if req.files? and req.files.file?
+            file = req.files.file
+            post.file = file.path
+            console.log post
+          _next()
+        ),
+        ((_next) ->
+          Board.update
+            name: req.params.boardName
+            "threads.id": req.params.id
+          ,
+            $push:
+              "threads.$.posts":
+                post
+          , (err, result) ->
+            return next() if not result?
+            _next()
+        )
+      ]
+      , (err, result) -> 
+          res.redirect "/board/#{req.params.boardName}/thread/#{req.params.id}#p#{currentPostCount}"
+      )
       
 module.exports = boardController

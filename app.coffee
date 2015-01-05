@@ -29,7 +29,7 @@ app.configure ->
   
   # serve static assets
   app.use('/assets', express.static("#{__dirname}/#{ASSET_BUILD_PATH}"))
-  
+  app.use('/images', express.static("#{__dirname}/images"))
    
   # logging
   app.use express.logger()
@@ -39,7 +39,7 @@ app.configure ->
     extended: true
     
   app.use multer(
-    dest: './uploads/'
+    dest: './images/'
   )
   
   app.use session(

@@ -6,6 +6,9 @@ if post
         span.name #{post.name}
         span.date #{post.date}
         a.id(href='#', id='c#{post.id}') #{post.id}
+      if post.file
+        a(href='/#{post.file}', target='_blank')
+          img.post-image(src='/#{post.file}')
       .body
         p !{post.text}
   else
@@ -14,5 +17,8 @@ if post
         span.name #{post.name}
         span.date #{post.date}
         a.id(href='#', id='c#{post.id}') #{post.id}
+      if post.file
+        a(href='/#{post.file}', target='_blank')
+          img.post-image(src='/#{post.file}')
       .body
         p !{post.text}

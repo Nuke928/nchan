@@ -3,3 +3,4 @@ server/client_build/*
 node_modules/*
 *.log
 .sass-cache/*
+images
