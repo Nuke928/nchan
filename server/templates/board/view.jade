@@ -2,7 +2,8 @@ extends layout
 
 block content
   .board-header
-    h1 /#{board.name}/
+    a(href='/board/#{board.name}')
+      h1 /#{board.name}/
     .new-thread
       h3 Create New Thread
       form.form(role='form', method='post', action='/board/#{board.name}/newThread', enctype='multipart/form-data')
