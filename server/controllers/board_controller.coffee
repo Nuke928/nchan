@@ -25,7 +25,7 @@ boardController.new = (req, res) ->
       res.redirect "/board"
     else
       req.flash 'info', 'Successfully added board!'
-      res.redirect "/board/#{req.body.boardName}"
+      res.redirect encodeURI("/board/#{req.body.boardName}")
 
 boardController.view = (req, res, next) ->
   return next() if not req.params.boardName?
@@ -88,7 +88,7 @@ boardController.newThread = (req, res, next) ->
         )
       ]
       , (err, result) ->
-        res.redirect "/board/#{req.params.boardName}"
+        res.redirect encodeURI("/board/#{req.params.boardName}")
       )
       
 boardController.viewThread = (req, res, next) ->
@@ -154,8 +154,8 @@ boardController.postInThread = (req, res, next) ->
             _next()
         )
       ]
-      , (err, result) -> 
-          res.redirect "/board/#{req.params.boardName}/thread/#{req.params.id}#p#{currentPostCount}"
+      , (err, result) ->
+          res.redirect encodeURI("/board/#{req.params.boardName}/thread/#{req.params.id}#p#{currentPostCount}")
       )
       
 module.exports = boardController
